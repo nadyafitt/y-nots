@@ -9,6 +9,10 @@ use Cake\Validation\Validator;
 /**
  * Invoices Model
  *
+ * @property \App\Model\Table\BooksTable|\Cake\ORM\Association\BelongsTo $Books
+ * @property \App\Model\Table\BookstoresTable|\Cake\ORM\Association\BelongsTo $Bookstores
+ * @property \App\Model\Table\StocksTable|\Cake\ORM\Association\BelongsTo $Stocks
+ *
  * @method \App\Model\Entity\Invoice get($primaryKey, $options = [])
  * @method \App\Model\Entity\Invoice newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Invoice[] newEntities(array $data, array $options = [])
@@ -31,8 +35,21 @@ class InvoicesTable extends Table
         parent::initialize($config);
 
         $this->setTable('invoices');
-        $this->setDisplayField('invoiceID');
-        $this->setPrimaryKey('invoiceID');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
+
+        $this->belongsTo('Books', [
+            'foreignKey' => 'book_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Bookstores', [
+            'foreignKey' => 'bookstore_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Stocks', [
+            'foreignKey' => 'stock_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**
@@ -44,29 +61,13 @@ class InvoicesTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('invoiceID')
-            ->allowEmptyString('invoiceID', 'create');
+            ->integer('id')
+            ->allowEmptyString('id', 'create');
 
         $validator
-            ->decimal('totalPrice')
-            ->requirePresence('totalPrice', 'create')
-            ->allowEmptyString('totalPrice', false);
-
-        $validator
-            ->integer('isbn')
-            ->requirePresence('isbn', 'create')
-            ->allowEmptyString('isbn', false);
-
-        $validator
-            ->integer('bookStoreID')
-            ->requirePresence('bookStoreID', 'create')
-            ->allowEmptyString('bookStoreID', false)
-            ->add('bookStoreID', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
-
-        $validator
-            ->integer('stockID')
-            ->requirePresence('stockID', 'create')
-            ->allowEmptyString('stockID', false);
+            ->decimal('TotalPrice')
+            ->requirePresence('TotalPrice', 'create')
+            ->allowEmptyString('TotalPrice', false);
 
         return $validator;
     }
@@ -80,7 +81,9 @@ class InvoicesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['bookStoreID']));
+        $rules->add($rules->existsIn(['book_id'], 'Books'));
+        $rules->add($rules->existsIn(['bookstore_id'], 'Bookstores'));
+        $rules->add($rules->existsIn(['stock_id'], 'Stocks'));
 
         return $rules;
     }

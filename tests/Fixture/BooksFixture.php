@@ -15,20 +15,14 @@ class BooksFixture extends TestFixture
      */
     // @codingStandardsIgnoreStart
     public $fields = [
-        'isbn' => ['type' => 'integer', 'length' => 100, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'Title' => ['type' => 'string', 'length' => 200, 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
-        'Genre' => ['type' => 'string', 'length' => 200, 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
-        'PublishYear' => ['type' => 'date', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
-        'Price' => ['type' => 'decimal', 'length' => 65, 'precision' => 2, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => ''],
-        'AuthorID' => ['type' => 'integer', 'length' => 100, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'userID' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        '_indexes' => [
-            'AuthorID' => ['type' => 'index', 'columns' => ['AuthorID'], 'length' => []],
-            'userID' => ['type' => 'index', 'columns' => ['userID'], 'length' => []],
-        ],
+        'id' => ['type' => 'integer', 'length' => 100, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
+        'Title' => ['type' => 'string', 'length' => 200, 'null' => false, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'Genre' => ['type' => 'string', 'length' => 200, 'null' => false, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'PublishYear' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
+        'Price' => ['type' => 'decimal', 'length' => 65, 'precision' => 0, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => ''],
+        'author_id' => ['type' => 'integer', 'length' => 100, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         '_constraints' => [
-            'primary' => ['type' => 'primary', 'columns' => ['isbn'], 'length' => []],
-            'AuthorID_2' => ['type' => 'unique', 'columns' => ['AuthorID'], 'length' => []],
+            'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',
@@ -45,13 +39,12 @@ class BooksFixture extends TestFixture
     {
         $this->records = [
             [
-                'isbn' => 1,
+                'id' => 1,
                 'Title' => 'Lorem ipsum dolor sit amet',
                 'Genre' => 'Lorem ipsum dolor sit amet',
-                'PublishYear' => '2019-05-19',
+                'PublishYear' => '2019-05-28 18:10:30',
                 'Price' => 1.5,
-                'AuthorID' => 1,
-                'userID' => 1
+                'author_id' => 1
             ],
         ];
         parent::init();

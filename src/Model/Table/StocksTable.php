@@ -9,6 +9,9 @@ use Cake\Validation\Validator;
 /**
  * Stocks Model
  *
+ * @property \App\Model\Table\BooksTable|\Cake\ORM\Association\BelongsTo $Books
+ * @property \App\Model\Table\InvoicesTable|\Cake\ORM\Association\HasMany $Invoices
+ *
  * @method \App\Model\Entity\Stock get($primaryKey, $options = [])
  * @method \App\Model\Entity\Stock newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Stock[] newEntities(array $data, array $options = [])
@@ -31,8 +34,16 @@ class StocksTable extends Table
         parent::initialize($config);
 
         $this->setTable('stocks');
-        $this->setDisplayField('StockID');
-        $this->setPrimaryKey('StockID');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
+
+        $this->belongsTo('Books', [
+            'foreignKey' => 'book_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->hasMany('Invoices', [
+            'foreignKey' => 'stock_id'
+        ]);
     }
 
     /**
@@ -44,8 +55,8 @@ class StocksTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('StockID')
-            ->allowEmptyString('StockID', 'create');
+            ->integer('id')
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->integer('Quantity')
@@ -53,15 +64,29 @@ class StocksTable extends Table
             ->allowEmptyString('Quantity', false);
 
         $validator
-            ->date('DateDeliver')
+            ->dateTime('DateDeliver')
             ->requirePresence('DateDeliver', 'create')
-            ->allowEmptyDate('DateDeliver', false);
+            ->allowEmptyDateTime('DateDeliver', false);
 
         $validator
-            ->date('DateReturn')
+            ->dateTime('DateReturn')
             ->requirePresence('DateReturn', 'create')
-            ->allowEmptyDate('DateReturn', false);
+            ->allowEmptyDateTime('DateReturn', false);
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->existsIn(['book_id'], 'Books'));
+
+        return $rules;
     }
 }

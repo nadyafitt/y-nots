@@ -8,6 +8,8 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('List Users'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List Authors'), ['controller' => 'Authors', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Author'), ['controller' => 'Authors', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="users form large-9 medium-8 columns content">
@@ -15,12 +17,13 @@
     <fieldset>
         <legend><?= __('Add User') ?></legend>
         <?php
-            echo $this->Form->control('username');
-            echo $this->Form->control('password');
-            echo $this->Form->control('email');
-            echo $this->Form->control('role');
-            echo $this->Form->control('phone');
-            echo $this->Form->control('address');
+            echo $this->Form->control('Password');
+            echo $this->Form->control('Name');
+            echo $this->Form->control('Phone');
+            echo $this->Form->control('Email');
+            echo $this->Form->control('Address');
+            echo $this->Form->control('Role');
+            echo $this->Form->control('author_id', ['options' => $authors]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

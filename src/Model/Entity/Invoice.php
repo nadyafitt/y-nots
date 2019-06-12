@@ -6,11 +6,15 @@ use Cake\ORM\Entity;
 /**
  * Invoice Entity
  *
- * @property int $invoiceID
- * @property float $totalPrice
- * @property int $isbn
- * @property int $bookStoreID
- * @property int $stockID
+ * @property int $id
+ * @property float $TotalPrice
+ * @property int $book_id
+ * @property int $bookstore_id
+ * @property int $stock_id
+ *
+ * @property \App\Model\Entity\Book $book
+ * @property \App\Model\Entity\Bookstore $bookstore
+ * @property \App\Model\Entity\Stock $stock
  */
 class Invoice extends Entity
 {
@@ -24,9 +28,12 @@ class Invoice extends Entity
      * @var array
      */
     protected $_accessible = [
-        'totalPrice' => true,
-        'isbn' => true,
-        'bookStoreID' => true,
-        'stockID' => true
+        'TotalPrice' => true,
+        'book_id' => true,
+        'bookstore_id' => true,
+        'stock_id' => true,
+        'book' => true,
+        'bookstore' => true,
+        'stock' => true
     ];
 }

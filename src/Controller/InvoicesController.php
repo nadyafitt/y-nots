@@ -19,6 +19,9 @@ class InvoicesController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Books', 'Bookstores', 'Stocks']
+        ];
         $invoices = $this->paginate($this->Invoices);
 
         $this->set(compact('invoices'));
@@ -34,7 +37,7 @@ class InvoicesController extends AppController
     public function view($id = null)
     {
         $invoice = $this->Invoices->get($id, [
-            'contain' => []
+            'contain' => ['Books', 'Bookstores', 'Stocks']
         ]);
 
         $this->set('invoice', $invoice);
@@ -57,7 +60,10 @@ class InvoicesController extends AppController
             }
             $this->Flash->error(__('The invoice could not be saved. Please, try again.'));
         }
-        $this->set(compact('invoice'));
+        $books = $this->Invoices->Books->find('list', ['limit' => 200]);
+        $bookstores = $this->Invoices->Bookstores->find('list', ['limit' => 200]);
+        $stocks = $this->Invoices->Stocks->find('list', ['limit' => 200]);
+        $this->set(compact('invoice', 'books', 'bookstores', 'stocks'));
     }
 
     /**
@@ -81,7 +87,10 @@ class InvoicesController extends AppController
             }
             $this->Flash->error(__('The invoice could not be saved. Please, try again.'));
         }
-        $this->set(compact('invoice'));
+        $books = $this->Invoices->Books->find('list', ['limit' => 200]);
+        $bookstores = $this->Invoices->Bookstores->find('list', ['limit' => 200]);
+        $stocks = $this->Invoices->Stocks->find('list', ['limit' => 200]);
+        $this->set(compact('invoice', 'books', 'bookstores', 'stocks'));
     }
 
     /**

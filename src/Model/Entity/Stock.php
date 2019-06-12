@@ -6,10 +6,14 @@ use Cake\ORM\Entity;
 /**
  * Stock Entity
  *
- * @property int $StockID
+ * @property int $id
  * @property int $Quantity
- * @property \Cake\I18n\FrozenDate $DateDeliver
- * @property \Cake\I18n\FrozenDate $DateReturn
+ * @property \Cake\I18n\FrozenTime $DateDeliver
+ * @property \Cake\I18n\FrozenTime $DateReturn
+ * @property int $book_id
+ *
+ * @property \App\Model\Entity\Book $book
+ * @property \App\Model\Entity\Invoice[] $invoices
  */
 class Stock extends Entity
 {
@@ -25,6 +29,9 @@ class Stock extends Entity
     protected $_accessible = [
         'Quantity' => true,
         'DateDeliver' => true,
-        'DateReturn' => true
+        'DateReturn' => true,
+        'book_id' => true,
+        'book' => true,
+        'invoices' => true
     ];
 }

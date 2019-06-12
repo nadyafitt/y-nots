@@ -23,7 +23,9 @@ class StocksTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.Stocks'
+        'app.Stocks',
+        'app.Books',
+        'app.Invoices'
     ];
 
     /**
@@ -66,6 +68,16 @@ class StocksTableTest extends TestCase
      * @return void
      */
     public function testValidationDefault()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test buildRules method
+     *
+     * @return void
+     */
+    public function testBuildRules()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

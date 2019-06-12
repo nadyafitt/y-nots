@@ -19,6 +19,9 @@ class UsersController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Authors']
+        ];
         $users = $this->paginate($this->Users);
 
         $this->set(compact('users'));
@@ -34,7 +37,7 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => []
+            'contain' => ['Authors']
         ]);
 
         $this->set('user', $user);
@@ -57,7 +60,8 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $this->set(compact('user'));
+        $authors = $this->Users->Authors->find('list', ['limit' => 200]);
+        $this->set(compact('user', 'authors'));
     }
 
     /**
@@ -81,7 +85,8 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $this->set(compact('user'));
+        $authors = $this->Users->Authors->find('list', ['limit' => 200]);
+        $this->set(compact('user', 'authors'));
     }
 
     /**
@@ -103,25 +108,24 @@ class UsersController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+	
+	// Login
+	public function login(){
+		if($this->request->is('post')){
+			$user = $this->Auth->identify();
+			if($user){
+				$this->Auth->setUser($user);
+				return $this->redirect(['controller' => 'users']);
+			}
+			// Bad Login
+			$this->Flash->error('Incorrect Login');
+		}
+	}
+	
+	// Logout
+	public function logout(){
+		$this->Flash->success('You are logged out');
+		return $this->redirect($this->Auth->logout());
+	}
 
-    //login
-    public function login(){
-
-        $this->viewBuilder()->setLayout('login');
-        if($this->request->is('post'))
-        {
-
-            $user = $this->Auth->identify();
-            $this->Auth->setUser($user);
-            $this->redirect(['action'=>'index']);
-        }
-    } 
-
-    public function logout()
-    {
-        $this->Flash->success('You are logged out');
-        return $this->redirect($this->Auth->logout());
-
-    }
 }
-

@@ -8,10 +8,11 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Stock'), ['action' => 'add']) ?></li>
-        <li><a href="Users" target="_blank">Users</a></li>
-        <li><a href="Bookstores" target="_blank">Bookstores</a></li>
-        <li><a href="Invoices" target="_blank">Invoices</a></li>
-        <li><a href="Books" target="_blank">Books</a> </li>
+        <li><?= $this->Html->link(__('Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Authors'), ['controller' => 'Authors', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Books'), ['controller' => 'Books', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Bookstores'), ['controller' => 'Bookstores', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Invoices'), ['controller' => 'Invoices', 'action' => 'index']) ?></li>
     </ul>
 </nav>
 <div class="stocks index large-9 medium-8 columns content">
@@ -19,24 +20,26 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('StockID') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('Quantity') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('DateDeliver') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('DateReturn') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('book_id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($stocks as $stock): ?>
             <tr>
-                <td><?= $this->Number->format($stock->StockID) ?></td>
+                <td><?= $this->Number->format($stock->id) ?></td>
                 <td><?= $this->Number->format($stock->Quantity) ?></td>
                 <td><?= h($stock->DateDeliver) ?></td>
                 <td><?= h($stock->DateReturn) ?></td>
+                <td><?= $stock->has('book') ? $this->Html->link($stock->book->id, ['controller' => 'Books', 'action' => 'view', $stock->book->id]) : '' ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $stock->StockID]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $stock->StockID]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $stock->StockID], ['confirm' => __('Are you sure you want to delete # {0}?', $stock->StockID)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $stock->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $stock->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $stock->id], ['confirm' => __('Are you sure you want to delete # {0}?', $stock->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

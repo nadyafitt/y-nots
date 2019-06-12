@@ -6,10 +6,12 @@ use Cake\ORM\Entity;
 /**
  * Bookstore Entity
  *
- * @property int $bookStoreID
- * @property string|null $branch
- * @property string|null $name
- * @property int $totalBranch
+ * @property int $id
+ * @property string $Branch
+ * @property string $Name
+ * @property int $TotalBranch
+ *
+ * @property \App\Model\Entity\Invoice[] $invoices
  */
 class Bookstore extends Entity
 {
@@ -23,8 +25,9 @@ class Bookstore extends Entity
      * @var array
      */
     protected $_accessible = [
-        'branch' => true,
-        'name' => true,
-        'totalBranch' => true
+        'Branch' => true,
+        'Name' => true,
+        'TotalBranch' => true,
+        'invoices' => true
     ];
 }

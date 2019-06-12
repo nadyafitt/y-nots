@@ -6,13 +6,16 @@ use Cake\ORM\Entity;
 /**
  * Book Entity
  *
- * @property int $isbn
- * @property string|null $Title
- * @property string|null $Genre
- * @property \Cake\I18n\FrozenDate $PublishYear
+ * @property int $id
+ * @property string $Title
+ * @property string $Genre
+ * @property \Cake\I18n\FrozenTime $PublishYear
  * @property float $Price
- * @property int $AuthorID
- * @property int $userID
+ * @property int $author_id
+ *
+ * @property \App\Model\Entity\Author $author
+ * @property \App\Model\Entity\Invoice[] $invoices
+ * @property \App\Model\Entity\Stock[] $stocks
  */
 class Book extends Entity
 {
@@ -30,7 +33,9 @@ class Book extends Entity
         'Genre' => true,
         'PublishYear' => true,
         'Price' => true,
-        'AuthorID' => true,
-        'userID' => true
+        'author_id' => true,
+        'author' => true,
+        'invoices' => true,
+        'stocks' => true
     ];
 }

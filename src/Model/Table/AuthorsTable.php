@@ -9,6 +9,9 @@ use Cake\Validation\Validator;
 /**
  * Authors Model
  *
+ * @property \App\Model\Table\BooksTable|\Cake\ORM\Association\HasMany $Books
+ * @property \App\Model\Table\UsersTable|\Cake\ORM\Association\HasMany $Users
+ *
  * @method \App\Model\Entity\Author get($primaryKey, $options = [])
  * @method \App\Model\Entity\Author newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Author[] newEntities(array $data, array $options = [])
@@ -31,8 +34,15 @@ class AuthorsTable extends Table
         parent::initialize($config);
 
         $this->setTable('authors');
-        $this->setDisplayField('AuthorID');
-        $this->setPrimaryKey('AuthorID');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
+
+        $this->hasMany('Books', [
+            'foreignKey' => 'author_id'
+        ]);
+        $this->hasMany('Users', [
+            'foreignKey' => 'author_id'
+        ]);
     }
 
     /**
@@ -44,8 +54,8 @@ class AuthorsTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('AuthorID')
-            ->allowEmptyString('AuthorID', 'create');
+            ->integer('id')
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->scalar('Name')
@@ -54,7 +64,8 @@ class AuthorsTable extends Table
             ->allowEmptyString('Name', false);
 
         $validator
-            ->integer('Phone')
+            ->scalar('Phone')
+            ->maxLength('Phone', 200)
             ->requirePresence('Phone', 'create')
             ->allowEmptyString('Phone', false);
 

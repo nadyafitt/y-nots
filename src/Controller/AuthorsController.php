@@ -34,7 +34,7 @@ class AuthorsController extends AppController
     public function view($id = null)
     {
         $author = $this->Authors->get($id, [
-            'contain' => []
+            'contain' => ['Books', 'Users']
         ]);
 
         $this->set('author', $author);

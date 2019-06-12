@@ -9,6 +9,8 @@ use Cake\Validation\Validator;
 /**
  * Bookstores Model
  *
+ * @property \App\Model\Table\InvoicesTable|\Cake\ORM\Association\HasMany $Invoices
+ *
  * @method \App\Model\Entity\Bookstore get($primaryKey, $options = [])
  * @method \App\Model\Entity\Bookstore newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Bookstore[] newEntities(array $data, array $options = [])
@@ -31,8 +33,12 @@ class BookstoresTable extends Table
         parent::initialize($config);
 
         $this->setTable('bookstores');
-        $this->setDisplayField('name');
-        $this->setPrimaryKey('bookStoreID');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
+
+        $this->hasMany('Invoices', [
+            'foreignKey' => 'bookstore_id'
+        ]);
     }
 
     /**
@@ -44,23 +50,25 @@ class BookstoresTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('bookStoreID')
-            ->allowEmptyString('bookStoreID', 'create');
+            ->integer('id')
+            ->allowEmptyString('id', 'create');
 
         $validator
-            ->scalar('branch')
-            ->maxLength('branch', 200)
-            ->allowEmptyString('branch');
+            ->scalar('Branch')
+            ->maxLength('Branch', 200)
+            ->requirePresence('Branch', 'create')
+            ->allowEmptyString('Branch', false);
 
         $validator
-            ->scalar('name')
-            ->maxLength('name', 200)
-            ->allowEmptyString('name');
+            ->scalar('Name')
+            ->maxLength('Name', 200)
+            ->requirePresence('Name', 'create')
+            ->allowEmptyString('Name', false);
 
         $validator
-            ->integer('totalBranch')
-            ->requirePresence('totalBranch', 'create')
-            ->allowEmptyString('totalBranch', false);
+            ->integer('TotalBranch')
+            ->requirePresence('TotalBranch', 'create')
+            ->allowEmptyString('TotalBranch', false);
 
         return $validator;
     }

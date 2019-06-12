@@ -9,6 +9,8 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
+ * @property \App\Model\Table\AuthorsTable|\Cake\ORM\Association\BelongsTo $Authors
+ *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
@@ -31,8 +33,13 @@ class UsersTable extends Table
         parent::initialize($config);
 
         $this->setTable('users');
-        $this->setDisplayField('userID');
-        $this->setPrimaryKey('userID');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
+
+        $this->belongsTo('Authors', [
+            'foreignKey' => 'author_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**
@@ -44,37 +51,44 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('userID')
-            ->allowEmptyString('userID', 'create');
+            ->nonNegativeInteger('id')
+            ->allowEmptyString('id', 'create');
 
         $validator
-            ->scalar('username')
-            ->maxLength('username', 200)
-            ->allowEmptyString('username');
+            ->scalar('Password')
+            ->maxLength('Password', 200)
+            ->requirePresence('Password', 'create')
+            ->allowEmptyString('Password', false);
 
         $validator
-            ->scalar('password')
-            ->maxLength('password', 200)
-            ->allowEmptyString('password');
+            ->scalar('Name')
+            ->maxLength('Name', 200)
+            ->requirePresence('Name', 'create')
+            ->allowEmptyString('Name', false);
 
         $validator
-            ->email('email')
-            ->allowEmptyString('email');
+            ->scalar('Phone')
+            ->maxLength('Phone', 200)
+            ->requirePresence('Phone', 'create')
+            ->allowEmptyString('Phone', false);
 
         $validator
-            ->scalar('role')
-            ->maxLength('role', 200)
-            ->allowEmptyString('role');
+            ->scalar('Email')
+            ->maxLength('Email', 200)
+            ->requirePresence('Email', 'create')
+            ->allowEmptyString('Email', false);
 
         $validator
-            ->scalar('phone')
-            ->maxLength('phone', 200)
-            ->allowEmptyString('phone');
+            ->scalar('Address')
+            ->maxLength('Address', 200)
+            ->requirePresence('Address', 'create')
+            ->allowEmptyString('Address', false);
 
         $validator
-            ->scalar('address')
-            ->maxLength('address', 200)
-            ->allowEmptyString('address');
+            ->scalar('Role')
+            ->maxLength('Role', 200)
+            ->requirePresence('Role', 'create')
+            ->allowEmptyString('Role', false);
 
         return $validator;
     }
@@ -88,8 +102,7 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['username']));
-        $rules->add($rules->isUnique(['email']));
+        $rules->add($rules->existsIn(['author_id'], 'Authors'));
 
         return $rules;
     }

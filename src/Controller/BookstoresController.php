@@ -34,7 +34,7 @@ class BookstoresController extends AppController
     public function view($id = null)
     {
         $bookstore = $this->Bookstores->get($id, [
-            'contain' => []
+            'contain' => ['Invoices']
         ]);
 
         $this->set('bookstore', $bookstore);

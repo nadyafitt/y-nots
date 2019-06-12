@@ -40,10 +40,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <h1><a href=""><?= $this->fetch('title') ?></a></h1>
             </li>
         </ul>
+        
         <div class="top-bar-section">
             <ul class="right">
-                <li><?= $this->Html->link('Logout',['controller'=>'users', 'action'=>'logout']); ?>
-            </li>
+                <li><?= $this->Html->link('Logout', ['controller' => 'users', 'action' => 'logout']); ?></li>
             </ul>
         </div>
     </nav>

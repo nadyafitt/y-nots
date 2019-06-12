@@ -19,6 +19,9 @@ class StocksController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'contain' => ['Books']
+        ];
         $stocks = $this->paginate($this->Stocks);
 
         $this->set(compact('stocks'));
@@ -34,7 +37,7 @@ class StocksController extends AppController
     public function view($id = null)
     {
         $stock = $this->Stocks->get($id, [
-            'contain' => []
+            'contain' => ['Books', 'Invoices']
         ]);
 
         $this->set('stock', $stock);
@@ -57,7 +60,8 @@ class StocksController extends AppController
             }
             $this->Flash->error(__('The stock could not be saved. Please, try again.'));
         }
-        $this->set(compact('stock'));
+        $books = $this->Stocks->Books->find('list', ['limit' => 200]);
+        $this->set(compact('stock', 'books'));
     }
 
     /**
@@ -81,7 +85,8 @@ class StocksController extends AppController
             }
             $this->Flash->error(__('The stock could not be saved. Please, try again.'));
         }
-        $this->set(compact('stock'));
+        $books = $this->Stocks->Books->find('list', ['limit' => 200]);
+        $this->set(compact('stock', 'books'));
     }
 
     /**

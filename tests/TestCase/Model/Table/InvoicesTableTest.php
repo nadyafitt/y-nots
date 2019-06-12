@@ -23,7 +23,10 @@ class InvoicesTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.Invoices'
+        'app.Invoices',
+        'app.Books',
+        'app.Bookstores',
+        'app.Stocks'
     ];
 
     /**

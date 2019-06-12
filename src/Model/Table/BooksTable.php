@@ -9,6 +9,10 @@ use Cake\Validation\Validator;
 /**
  * Books Model
  *
+ * @property \App\Model\Table\AuthorsTable|\Cake\ORM\Association\BelongsTo $Authors
+ * @property \App\Model\Table\InvoicesTable|\Cake\ORM\Association\HasMany $Invoices
+ * @property \App\Model\Table\StocksTable|\Cake\ORM\Association\HasMany $Stocks
+ *
  * @method \App\Model\Entity\Book get($primaryKey, $options = [])
  * @method \App\Model\Entity\Book newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Book[] newEntities(array $data, array $options = [])
@@ -31,8 +35,19 @@ class BooksTable extends Table
         parent::initialize($config);
 
         $this->setTable('books');
-        $this->setDisplayField('isbn');
-        $this->setPrimaryKey('isbn');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
+
+        $this->belongsTo('Authors', [
+            'foreignKey' => 'author_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->hasMany('Invoices', [
+            'foreignKey' => 'book_id'
+        ]);
+        $this->hasMany('Stocks', [
+            'foreignKey' => 'book_id'
+        ]);
     }
 
     /**
@@ -44,39 +59,30 @@ class BooksTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('isbn')
-            ->allowEmptyString('isbn', 'create');
+            ->integer('id')
+            ->allowEmptyString('id', 'create');
 
         $validator
             ->scalar('Title')
             ->maxLength('Title', 200)
-            ->allowEmptyString('Title');
+            ->requirePresence('Title', 'create')
+            ->allowEmptyString('Title', false);
 
         $validator
             ->scalar('Genre')
             ->maxLength('Genre', 200)
-            ->allowEmptyString('Genre');
+            ->requirePresence('Genre', 'create')
+            ->allowEmptyString('Genre', false);
 
         $validator
-            ->date('PublishYear')
+            ->dateTime('PublishYear')
             ->requirePresence('PublishYear', 'create')
-            ->allowEmptyDate('PublishYear', false);
+            ->allowEmptyDateTime('PublishYear', false);
 
         $validator
             ->decimal('Price')
             ->requirePresence('Price', 'create')
             ->allowEmptyString('Price', false);
-
-        $validator
-            ->integer('AuthorID')
-            ->requirePresence('AuthorID', 'create')
-            ->allowEmptyString('AuthorID', false)
-            ->add('AuthorID', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
-
-        $validator
-            ->integer('userID')
-            ->requirePresence('userID', 'create')
-            ->allowEmptyString('userID', false);
 
         return $validator;
     }
@@ -90,7 +96,7 @@ class BooksTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['AuthorID']));
+        $rules->add($rules->existsIn(['author_id'], 'Authors'));
 
         return $rules;
     }

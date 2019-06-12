@@ -6,10 +6,13 @@ use Cake\ORM\Entity;
 /**
  * Author Entity
  *
- * @property int $AuthorID
+ * @property int $id
  * @property string $Name
- * @property int $Phone
+ * @property string $Phone
  * @property string $Email
+ *
+ * @property \App\Model\Entity\Book[] $books
+ * @property \App\Model\Entity\User[] $users
  */
 class Author extends Entity
 {
@@ -25,6 +28,8 @@ class Author extends Entity
     protected $_accessible = [
         'Name' => true,
         'Phone' => true,
-        'Email' => true
+        'Email' => true,
+        'books' => true,
+        'users' => true
     ];
 }

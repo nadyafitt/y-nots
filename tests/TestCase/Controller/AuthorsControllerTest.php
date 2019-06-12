@@ -18,7 +18,9 @@ class AuthorsControllerTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.Authors'
+        'app.Authors',
+        'app.Books',
+        'app.Users'
     ];
 
     /**

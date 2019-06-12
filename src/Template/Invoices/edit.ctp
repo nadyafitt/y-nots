@@ -9,11 +9,17 @@
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Form->postLink(
                 __('Delete'),
-                ['action' => 'delete', $invoice->invoiceID],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $invoice->invoiceID)]
+                ['action' => 'delete', $invoice->id],
+                ['confirm' => __('Are you sure you want to delete # {0}?', $invoice->id)]
             )
         ?></li>
         <li><?= $this->Html->link(__('List Invoices'), ['action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List Books'), ['controller' => 'Books', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Book'), ['controller' => 'Books', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Bookstores'), ['controller' => 'Bookstores', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Bookstore'), ['controller' => 'Bookstores', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Stocks'), ['controller' => 'Stocks', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Stock'), ['controller' => 'Stocks', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="invoices form large-9 medium-8 columns content">
@@ -21,10 +27,10 @@
     <fieldset>
         <legend><?= __('Edit Invoice') ?></legend>
         <?php
-            echo $this->Form->control('totalPrice');
-            echo $this->Form->control('isbn');
-            echo $this->Form->control('bookStoreID');
-            echo $this->Form->control('stockID');
+            echo $this->Form->control('TotalPrice');
+            echo $this->Form->control('book_id', ['options' => $books]);
+            echo $this->Form->control('bookstore_id', ['options' => $bookstores]);
+            echo $this->Form->control('stock_id', ['options' => $stocks]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

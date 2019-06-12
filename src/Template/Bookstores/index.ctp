@@ -8,10 +8,11 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Bookstore'), ['action' => 'add']) ?></li>
-        <li><a href="Users" target="_blank">Users</a></li>
-        <li><a href="Books" target="_blank">Books</a></li>
-        <li><a href="Invoices" target="_blank">Invoices</a></li>
-        <li><a href="Stocks" target="_blank">Stocks</a> </li>
+        <li><?= $this->Html->link(__('Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Authors'), ['controller' => 'Authors', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Books'), ['controller' => 'Books', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Invoices'), ['controller' => 'Invoices', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Stocks'), ['controller' => 'Stocks', 'action' => 'index']) ?></li>
     </ul>
 </nav>
 <div class="bookstores index large-9 medium-8 columns content">
@@ -19,24 +20,24 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('bookStoreID') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('branch') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('totalBranch') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('Branch') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('Name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('TotalBranch') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($bookstores as $bookstore): ?>
             <tr>
-                <td><?= $this->Number->format($bookstore->bookStoreID) ?></td>
-                <td><?= h($bookstore->branch) ?></td>
-                <td><?= h($bookstore->name) ?></td>
-                <td><?= $this->Number->format($bookstore->totalBranch) ?></td>
+                <td><?= $this->Number->format($bookstore->id) ?></td>
+                <td><?= h($bookstore->Branch) ?></td>
+                <td><?= h($bookstore->Name) ?></td>
+                <td><?= $this->Number->format($bookstore->TotalBranch) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $bookstore->bookStoreID]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $bookstore->bookStoreID]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $bookstore->bookStoreID], ['confirm' => __('Are you sure you want to delete # {0}?', $bookstore->bookStoreID)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $bookstore->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $bookstore->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $bookstore->id], ['confirm' => __('Are you sure you want to delete # {0}?', $bookstore->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

@@ -18,7 +18,9 @@ class StocksControllerTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.Stocks'
+        'app.Stocks',
+        'app.Books',
+        'app.Invoices'
     ];
 
     /**

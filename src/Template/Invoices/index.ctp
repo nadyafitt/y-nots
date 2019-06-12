@@ -8,10 +8,11 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Invoice'), ['action' => 'add']) ?></li>
-                <li><a href="Users" target="_blank">Users</a></li>
-        <li><a href="Bookstores" target="_blank">Bookstores</a></li>
-        <li><a href="Books" target="_blank">Books</a></li>
-        <li><a href="Stocks" target="_blank">Stocks</a> </li>
+        <li><?= $this->Html->link(__('Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Authors'), ['controller' => 'Authors', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Books'), ['controller' => 'Books', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Bookstores'), ['controller' => 'Bookstores', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Stocks'), ['controller' => 'Stocks', 'action' => 'index']) ?></li>
     </ul>
 </nav>
 <div class="invoices index large-9 medium-8 columns content">
@@ -19,26 +20,26 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('invoiceID') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('totalPrice') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('isbn') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('bookStoreID') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('stockID') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('TotalPrice') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('book_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('bookstore_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('stock_id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($invoices as $invoice): ?>
             <tr>
-                <td><?= $this->Number->format($invoice->invoiceID) ?></td>
-                <td><?= $this->Number->format($invoice->totalPrice) ?></td>
-                <td><?= $this->Number->format($invoice->isbn) ?></td>
-                <td><?= $this->Number->format($invoice->bookStoreID) ?></td>
-                <td><?= $this->Number->format($invoice->stockID) ?></td>
+                <td><?= $this->Number->format($invoice->id) ?></td>
+                <td><?= $this->Number->format($invoice->TotalPrice) ?></td>
+                <td><?= $invoice->has('book') ? $this->Html->link($invoice->book->id, ['controller' => 'Books', 'action' => 'view', $invoice->book->id]) : '' ?></td>
+                <td><?= $invoice->has('bookstore') ? $this->Html->link($invoice->bookstore->id, ['controller' => 'Bookstores', 'action' => 'view', $invoice->bookstore->id]) : '' ?></td>
+                <td><?= $invoice->has('stock') ? $this->Html->link($invoice->stock->id, ['controller' => 'Stocks', 'action' => 'view', $invoice->stock->id]) : '' ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $invoice->invoiceID]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $invoice->invoiceID]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $invoice->invoiceID], ['confirm' => __('Are you sure you want to delete # {0}?', $invoice->invoiceID)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $invoice->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $invoice->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $invoice->id], ['confirm' => __('Are you sure you want to delete # {0}?', $invoice->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

@@ -8,10 +8,11 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New User'), ['action' => 'add']) ?></li>
-        <li><a href="Bookstores" target="_blank">Bookstores</a></li>
-        <li><a href="Books" target="_blank">Books</a></li>
-        <li><a href="Invoices" target="_blank">Invoices</a></li>
-        <li><a href="Stocks" target="_blank">Stocks</a> </li>
+        <li><?= $this->Html->link(__('Authors'), ['controller' => 'Authors', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Books'), ['controller' => 'Books', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Bookstores'), ['controller' => 'Bookstores', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Invoices'), ['controller' => 'Invoices', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Stocks'), ['controller' => 'Stocks', 'action' => 'index']) ?></li>
     </ul>
 </nav>
 <div class="users index large-9 medium-8 columns content">
@@ -19,30 +20,32 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('userID') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('username') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('password') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('role') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('address') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('Password') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('Name') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('Phone') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('Email') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('Address') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('Role') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('author_id') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($users as $user): ?>
             <tr>
-                <td><?= $this->Number->format($user->userID) ?></td>
-                <td><?= h($user->username) ?></td>
-                <td><?= h($user->password) ?></td>
-                <td><?= h($user->email) ?></td>
-                <td><?= h($user->role) ?></td>
-                <td><?= h($user->phone) ?></td>
-                <td><?= h($user->address) ?></td>
+                <td><?= $this->Number->format($user->id) ?></td>
+                <td><?= h($user->Password) ?></td>
+                <td><?= h($user->Name) ?></td>
+                <td><?= h($user->Phone) ?></td>
+                <td><?= h($user->Email) ?></td>
+                <td><?= h($user->Address) ?></td>
+                <td><?= h($user->Role) ?></td>
+                <td><?= $user->has('author') ? $this->Html->link($user->author->id, ['controller' => 'Authors', 'action' => 'view', $user->author->id]) : '' ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $user->userID]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->userID]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->userID], ['confirm' => __('Are you sure you want to delete # {0}?', $user->userID)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
